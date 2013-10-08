@@ -1,3 +1,13 @@
+buildscript {
+	repositories {
+	    mavenCentral()
+	}
+	
+	dependencies {
+		classpath "net.saliman:gradle-cobertura-plugin:2.0.0"
+	}
+}
+
 apply plugin: 'groovy'
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -12,7 +22,14 @@ codenarc {
 	ignoreFailures = true
 }
 
-defaultTasks 'clean', 'build', 'groovydoc', 'cobertura'
+
+apply plugin: 'cobertura'
+cobertura {
+	coverageSourceDirs = [project.sourceSets.main.groovy.srcDirs]
+}
+
+
+defaultTasks 'clean', 'build', 'groovydoc'
 
 version = '0.3.2'
 
@@ -32,10 +49,3 @@ dependencies {
     compile 'org.apache.poi:poi-ooxml:3.8'
 }
 
-buildscript {
-	apply from: 'https://github.com/valkolovos/gradle_cobertura/raw/master/repo/gradle_cobertura/gradle_cobertura/1.0/coberturainit.gradle'
-}
-
-cobertura {
-	coverageSourceDirs = [project.sourceSets.main.groovy.srcDirs]
-}
