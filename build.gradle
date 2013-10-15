@@ -27,9 +27,12 @@ cobertura {
 	coverageSourceDirs = [project.sourceSets.main.groovy.srcDirs]
 }
 
+apply plugin: 'maven-publish'
+
 
 defaultTasks 'clean', 'build', 'groovydoc'
 
+group = 'org.gsheets.kktec'
 version = '0.3.2a'
 
 repositories {
@@ -46,5 +49,23 @@ dependencies {
 	
     compile 'org.apache.poi:poi:3.8'
     compile 'org.apache.poi:poi-ooxml:3.8'
+}
+
+
+task sourceJar(type: Jar) {
+  from sourceSets.main.allGroovy
+}
+
+publishing {
+	publications {
+		gsheets(MavenPublication) {
+			from components.java
+			
+			artifact sourceJar {
+				classifier 'sources'
+				extension 'zip'
+			}
+		}
+	}
 }
 
