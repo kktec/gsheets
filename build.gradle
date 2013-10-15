@@ -19,7 +19,6 @@ apply plugin: 'codenarc'
 codenarc {
 	toolVersion = '0.19'
 	configFile = file('config/codenarc/rules.groovy')
-	ignoreFailures = true
 }
 
 

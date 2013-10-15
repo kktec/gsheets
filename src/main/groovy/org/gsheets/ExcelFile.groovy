@@ -8,7 +8,6 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.ss.usermodel.*
-import org.apache.poi.hssf.usermodel.HSSFCell
 
 /**
  * A Groovy builder that wraps Apache POI for generating binary Microsoft Excel sheets.
@@ -50,12 +49,12 @@ import org.apache.poi.hssf.usermodel.HSSFCell
  */
 class ExcelFile {
 
-    Workbook workbook = new HSSFWorkbook()
-    private Sheet sheet
+    Workbook _workbook = new HSSFWorkbook()
+    private Sheet _sheet
     private int rowsCounter
 
-    private Map<String, CellStyle> cellStyles = [:]
-    private Map<String, Font> fonts = [:]
+    private final Map<String, CellStyle> cellStyles = [:]
+    private final Map<String, Font> fonts = [:]
 
     /**
      * Creates a new workbook.
@@ -68,7 +67,7 @@ class ExcelFile {
 
         closure.delegate = this
         closure.call()
-        workbook
+        _workbook
     }
 
     void styles(Closure closure) {
@@ -93,46 +92,46 @@ class ExcelFile {
     }
 
     void sheet(String name, Closure closure) {
-        assert workbook
+        assert _workbook
 
         assert name
         assert closure
 
-        sheet = workbook.createSheet(name)
+        _sheet = _workbook.createSheet(name)
         rowsCounter = 0
 
-        closure.delegate = sheet
+        closure.delegate = _sheet
         closure.call()
     }
 
     void cellStyle(String cellStyleId, Closure closure)  {
-        assert workbook
+        assert _workbook
 
         assert cellStyleId
         assert !cellStyles.containsKey(cellStyleId)
         assert closure
 
-        CellStyle cellStyle = workbook.createCellStyle()
+        CellStyle cellStyle = _workbook.createCellStyle()
         cellStyles.put(cellStyleId, cellStyle)
 
         closure.call(cellStyle)
     }
 
     void font(String fontId, Closure closure)  {
-        assert workbook
+        assert _workbook
 
         assert fontId
         assert !fonts.containsKey(fontId)
         assert closure
 
-        Font font = workbook.createFont()
+        Font font = _workbook.createFont()
         fonts.put(fontId, font)
 
         closure.call(font)
     }
 
     void applyCellStyle(Map<String, Object> args)  {
-        assert workbook
+        assert _workbook
 
         def cellStyleId = args.cellStyle
         def fontId = args.font
@@ -150,38 +149,38 @@ class ExcelFile {
         assert rows && (rows instanceof Number || rows instanceof Range<Number>)
         assert cells && (cells instanceof Number || cells instanceof Range<Number>)
 
-        if (cellStyleId && !cellStyles.containsKey(cellStyleId)) cellStyleId = null
-        if (fontId && !fonts.containsKey(fontId)) fontId = null
-        if (dataFormat && !(dataFormat instanceof String)) dataFormat = null
-        if (sheetName && !(sheetName instanceof String)) sheetName = null
-        if (colName && !(colName instanceof String)) colName = null
+        if (cellStyleId && !cellStyles.containsKey(cellStyleId)) { cellStyleId = null }
+        if (fontId && !fonts.containsKey(fontId)) { fontId = null }
+        if (dataFormat && !(dataFormat instanceof String)) { dataFormat = null }
+        if (sheetName && !(sheetName instanceof String)) { sheetName = null }
+        if (colName && !(colName instanceof String)) { colName = null }
 
-        def sheet = sheetName ? workbook.getSheet(sheetName as String) : workbook.getSheetAt(0)
+        def sheet = sheetName ? _workbook.getSheet(sheetName as String) : _workbook.getSheetAt(0)
         assert sheet
 
-        if (rows == -1)  rows  = [1..rowsCounter]
-        if (rows instanceof  Number) rows = [rows]
+        if (rows == -1) { rows  = [1..rowsCounter] }
+        if (rows instanceof Number) { rows = [rows] }
 
         rows.each { Number rowIndex ->
             assert rowIndex
 
             Row row = sheet.getRow(rowIndex.intValue() - 1)
-            if (!row) return
+            if (!row) { return }
 
-            if (cells == -1)  cells  = [row.firstCellNum..row.lastCellNum]
-            if (rows instanceof  Number) rows = [rows]
+            if (cells == -1) { cells = [row.firstCellNum..row.lastCellNum] }
+            if (rows instanceof Number) { rows = [rows] }
 
             def applyStyleFunc = { Number cellIndex ->
                 assert cellIndex
 
                 Cell cell = row.getCell(cellIndex.intValue() - 1)
-                if (!cell) return
+                if (!cell) { return }
 
-                if (cellStyleId) cell.setCellStyle(cellStyles.get(cellStyleId))
-                if (fontId) cell.getCellStyle().setFont(fonts.get(fontId))
+                if (cellStyleId) { cell.setCellStyle(cellStyles.get(cellStyleId)) }
+                if (fontId) { cell.cellStyle.setFont(fonts.get(fontId)) }
                 if (dataFormat) {
-                    DataFormat df = workbook.createDataFormat()
-                    cell.getCellStyle().setDataFormat(df.getFormat(dataFormat as String))
+                    DataFormat df = _workbook.createDataFormat()
+                    cell.cellStyle.setDataFormat(df.getFormat(dataFormat as String))
                 }
             }
 
@@ -190,7 +189,7 @@ class ExcelFile {
     }
 
     void mergeCells(Map<String, Object> args)  {
-        assert workbook
+        assert _workbook
 
         def rows = args.rows
         def cols = args.columns
@@ -199,17 +198,19 @@ class ExcelFile {
         assert rows && (rows instanceof Number || rows instanceof Range<Number>)
         assert cols && (cols instanceof Number || cols instanceof Range<Number>)
 
-        if (rows instanceof Number) rows = [rows]
-        if (cols instanceof Number) cols = [cols]
-        if (sheetName && !(sheetName instanceof String)) sheetName = null
+        if (rows instanceof Number) { rows = [rows] }
+        if (cols instanceof Number) { cols = [cols] }
+        if (sheetName && !(sheetName instanceof String)) { sheetName = null }
 
-        def sheet = sheetName ? workbook.getSheet(sheetName as String) : workbook.getSheetAt(0)
+        def sheet = sheetName ? _workbook.getSheet(sheetName as String) : _workbook.getSheetAt(0)
 
-        sheet.addMergedRegion(new CellRangeAddress(rows.first() - 1, rows.last() - 1, cols.first() - 1, cols.last() - 1))
+        sheet.addMergedRegion(
+			new CellRangeAddress(rows.first() - 1, rows.last() - 1, cols.first() - 1, cols.last() - 1)
+		)
     }
 
     void applyColumnWidth(Map<String, Object> args)  {
-        assert workbook
+        assert _workbook
 
         def cols = args.columns
         def sheetName = args.sheet
@@ -218,10 +219,10 @@ class ExcelFile {
         assert cols && (cols instanceof Number || cols instanceof Range<Number>)
         assert width && width instanceof Number
 
-        if (cols instanceof Number) cols = [cols]
-        if (sheetName && !(sheetName instanceof String)) sheetName = null
+        if (cols instanceof Number) { cols = [cols] }
+        if (sheetName && !(sheetName instanceof String)) { sheetName = null }
 
-        def sheet = sheetName ? workbook.getSheet(sheetName as String) : workbook.getSheetAt(0)
+        def sheet = sheetName ? _workbook.getSheet(sheetName as String) : _workbook.getSheetAt(0)
 
         cols.each {
             sheet.setColumnWidth(it - 1, width.intValue())
@@ -229,10 +230,10 @@ class ExcelFile {
     }
 
     void header(List<String> names)  {
-        assert sheet
+        assert _sheet
         assert names
 
-        Row row = sheet.createRow(rowsCounter++ as int)
+        Row row = _sheet.createRow(rowsCounter++ as int)
         names.eachWithIndex { String value, col ->
             Cell cell = row.createCell(col)
             cell.setCellValue(value)
@@ -240,17 +241,17 @@ class ExcelFile {
     }
 
     Row emptyRow()  {
-        assert sheet
+        assert _sheet
 
-        sheet.createRow(rowsCounter++ as int)
+        _sheet.createRow(rowsCounter++ as int)
     }
 
     void row(values) {
-        assert sheet
+        assert _sheet
         assert values
 
-        Row row = sheet.createRow(rowsCounter++ as int)
-        values.eachWithIndex {value, col ->
+        Row row = _sheet.createRow(rowsCounter++ as int)
+        values.eachWithIndex { value, col ->
             Cell cell = row.createCell(col)
             switch (value) {
                 case Date: cell.setCellValue((Date) value); break
@@ -258,7 +259,7 @@ class ExcelFile {
                 case BigDecimal: cell.setCellValue(((BigDecimal) value).doubleValue()); break
                 case Number: cell.setCellValue(((Number) value).doubleValue()); break
                 default:
-                    def stringValue = value?.toString() ?: ""
+                    def stringValue = value?.toString() ?: ''
                     if (stringValue.startsWith('=')) {
                         cell.setCellType(Cell.CELL_TYPE_FORMULA)
                         cell.setCellFormula(stringValue.substring(1))
@@ -271,7 +272,7 @@ class ExcelFile {
     }
 
     int getRowCount()  {
-        assert sheet
+        assert _sheet
 
         rowsCounter
     }

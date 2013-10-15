@@ -16,25 +16,25 @@ import org.junit.Test
  */
 class ExcelFileTests {
 
-	Workbook workbook = wb {}
+	Workbook wb = workbook { }
 	Sheet sheet
 
 	@Test
 	void empty_workbook() {
-		assert workbook instanceof Workbook
-		assert workbook.numberOfSheets == 0
+		assert wb instanceof Workbook
+		assert wb.numberOfSheets == 0
 	}
 
 	@Test
 	void workbook_with_sheets() {
-		wb {
+		workbook {
 			data {
-				sheet('sheet1') {}
-				sheet('sheet2') {}
+				sheet('sheet1') { }
+				sheet('sheet2') { }
 			}
 		}
 
-		workbook.with {
+		wb.with {
 			assert getSheetAt(0).sheetName == 'sheet1'
 			assert getSheetIndex('sheet2') == 1
 			assert numberOfSheets == 2
@@ -46,7 +46,7 @@ class ExcelFileTests {
 		def headers = ['String', 'Boolean', 'Date', 'Object', 'Integer', 'Double', 'BigDecimal']
 		Date date = new Date()
 		def o = new Object()
-		wb {
+		workbook {
 			data {
 				sheet('sheet') { 
 					header(headers) 
@@ -56,7 +56,7 @@ class ExcelFileTests {
 			}
 		}
 
-		sheet = workbook.getSheetAt(0)
+		sheet = wb.getSheetAt(0)
 		assertHeaderRow headers
 		
 		Row r1 = sheet.getRow(1)
@@ -99,7 +99,7 @@ class ExcelFileTests {
 		}
 	}
 
-	private wb(Closure c) {
-		workbook = new ExcelFile().workbook(c)
+	private workbook(Closure c) {
+		wb = new ExcelFile().workbook(c)
 	}
 }

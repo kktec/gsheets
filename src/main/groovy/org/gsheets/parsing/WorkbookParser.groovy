@@ -140,11 +140,11 @@ class WorkbookParser {
 	
 	private BigDecimal cellAsBigDecimal(Cell cell) { new BigDecimal(cell.toString()) }
 
-	private Double cellAsDouble(Cell cell) { cell.numericCellValue}
+	private Double cellAsDouble(Cell cell) { cell.numericCellValue }
 	
 	private Float cellAsFloat(Cell cell) { cellAsDouble(cell).floatValue() }
 	
-	private Long cellAsLong(Cell cell) {  cellAsBigDecimal(cell).longValue() }
+	private Long cellAsLong(Cell cell) { cellAsBigDecimal(cell).longValue() }
 	
 	private Integer cellAsInteger(Cell cell) { cellAsBigDecimal(cell).intValue() }
 	

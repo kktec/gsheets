@@ -134,7 +134,7 @@ abstract class WorkbookParserSpec extends Specification {
 	def 'can parse a grid from a worksheet by name'() {
 		given:
 		builder.workbook {
-			sheet('one') {}
+			sheet('one') { }
 			sheet('special') {
 				row 'something'
 			}
@@ -155,7 +155,7 @@ abstract class WorkbookParserSpec extends Specification {
 	def 'can parse a grid from a worksheet by index'() {
 		given:
 		builder.workbook {
-			sheet('one') {}
+			sheet('one') { }
 			sheet('special') {
 				row 'something'
 			}
