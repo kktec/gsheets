@@ -103,7 +103,7 @@ abstract class WorkbookParserSpec extends Specification {
 		List data = parser.grid {
 			startRowIndex = 2
 			columns(
-				abbreviation: 'string', disregard: 'skip', cost: 'decimal',
+				abbreviation: 'string', disregard: 'SKIP', cost: 'decimal',
 				num: 'int', status: 'boolean', irr: 'double', flt: 'float', date: 'date', lng: 'long'
 			)
 		}

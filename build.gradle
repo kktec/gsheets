@@ -30,7 +30,7 @@ cobertura {
 
 defaultTasks 'clean', 'build', 'groovydoc'
 
-version = '0.3.2'
+version = '0.3.2a'
 
 repositories {
     mavenCentral()

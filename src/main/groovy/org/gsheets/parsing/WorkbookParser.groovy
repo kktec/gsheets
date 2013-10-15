@@ -114,10 +114,10 @@ class WorkbookParser {
 	
 	private Map rowData(Row row) {
 		Map data = [:]
-		columnMap.eachWithIndex { column, name, index ->
+		columnMap.eachWithIndex { column, extractorName, index ->
 			Cell cell = row.getCell(index + startColumnIndex)
-			if (name != 'skip') {
-				Closure extractor = extractors[name]
+			if (extractorName.toLowerCase() != 'skip') {
+				Closure extractor = extractors[extractorName]
 				if (extractor) {
 					try { 
 						data[column] = extractor cell
@@ -127,7 +127,7 @@ class WorkbookParser {
 					}
 				}
 				else { 
-					throw new IllegalArgumentException("$name is not a supported extractor for column $column")
+					throw new IllegalArgumentException("$extractorName is not a supported extractor for column $column")
 				}
 			}
 		}

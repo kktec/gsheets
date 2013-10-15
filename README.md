@@ -45,8 +45,9 @@ A simple example of a parsing a Workbook that pulls in all physically existing r
     ins.close()
 
 If you don't like a provided extractor or need a new one, you can replace an existing one or provide a new one by adding a line to your parsing Closure, i.e.:
-
     extractor('toUpper') { Cell cell -> cell.toString().toUpperCase() }
+    
+To skip over a column, give it any name and specify an extractor of 'skip' (any case as of v0.3.2a).
 
 As to error handling, parsing will collect a List of individual cell data extraction errors. It will also fail fast on an unsupported extractor.
 
