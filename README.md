@@ -1,7 +1,7 @@
 GSheets
 ========
 
-kktec/gsheets is a [Groovy](http://groovy.codehaus.org) [DSL](http://martinfowler.com/books/dsl.html) wrapper over [Apache POI](http://poi.apache.org) based on code forked from [andresteingress/gsheets](https://github.com/andresteingress/gsheets).
+kktec/gsheets is a [Groovy](http://groovy.codehaus.org) DSL wrapper over [Apache POI](http://poi.apache.org) based on code forked from [andresteingress/gsheets](https://github.com/andresteingress/gsheets).
 
 Overview
 --------
@@ -19,19 +19,19 @@ Versions
 --------
 
 0.3.2a
-now using Gradle 1.10 
-is built on Groovy 1.8 and is therefore usable in any Grails 2 app
-is the 1st published version with binaries deployed to jcenter at binTray
-allows the special extractor 'skip' to be specified in a case insensitive way as all upper case reads better
+* now using Gradle 1.10 
+* built on Groovy 1.8 and is therefore usable in any Grails 2 app
+* first published version with binaries deployed to jcenter at binTray
+* allows the special extractor 'skip' to be specified in a case insensitive way as all upper case reads better
  
 0.3.2
-adds the ability to autosize the width of a specific no. of columns - call this after the sheet has been populated
+* adds the ability to autosize the width of a specific no. of columns - call this after the sheet has been populated
 
 0.3.1
-adds support for building a Workbook with a specified Date format, default format is 'yyyy-mm-dd hh:mm' showing military style time hours (0-23)
+* adds support for building a Workbook with a specified Date format, default format is 'yyyy-mm-dd hh:mm' showing military style time hours (0-23)
 
 0.3
-adds grid parsing functionality for declaratively reading spreadsheets
+* adds grid parsing functionality for declaratively reading spreadsheets
 
 
 
