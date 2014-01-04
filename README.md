@@ -6,27 +6,46 @@ kktec/gsheets is a [Groovy](http://groovy.codehaus.org) [DSL](http://martinfowle
 Overview
 --------
 
-It can be used to declaratively build or parse spreadsheets.
+It can be used to declaratively parse or build spreadsheets.
 
 The original code, ExcelFile, does not support xml spreadsheets and is provided as a convenience and to provide building functionality not yet provided.
 
-Changes
--------
+Plans as of 2014-01 include additional spreadsheet building/parsing features, additional samples, and better documentation.
+See the GitHub issue tracker for more or to make feature requests or report bugs.
 
-0.3 adds grid parsing functionality for declaratively reading spreadsheets.
 
-0.3.1 adds support for building a Workbook with a specified Date format, default format is 'yyyy-mm-dd hh:mm' showing military style time hours (0-23)
-0.3.2 adds the ability to autosize the width of a specific no. of columns - call this after the sheet has been populated 
 
-Plans as of 2013-10 include additional spreadsheet building/parsing features, additional samples, and better documentation.
+Versions
+--------
+
+0.3.2a
+now using Gradle 1.10 
+is built on Groovy 1.8 and is therefore usable in any Grails 2 app
+is the 1st published version with binaries deployed to jcenter at binTray
+allows the special extractor 'skip' to be specified in a case insensitive way as all upper case reads better
+ 
+0.3.2
+adds the ability to autosize the width of a specific no. of columns - call this after the sheet has been populated
+
+0.3.1
+adds support for building a Workbook with a specified Date format, default format is 'yyyy-mm-dd hh:mm' showing military style time hours (0-23)
+
+0.3
+adds grid parsing functionality for declaratively reading spreadsheets
+
 
 
 Notes
 -----
 
-Check the tests for more complete examples of usage. There are main methods on the tests that can be used to demonstrate building and parsing spreadsheets.
+Check the tests for examples of usage. There are main methods on the tests that can be used to demonstrate building and parsing spreadsheets.
 
-There are simple building/parsing examples in the integration tests.
+There are other simple building/parsing examples in the integration tests.
+
+Thanks to Sean Gilligan for helping out. - Ken Krebs
+
+To use it in Grails2, simply add 
+
 
 
 
@@ -51,13 +70,17 @@ To skip over a column, give it any name and specify an extractor of 'skip' (any 
 
 As to error handling, parsing will collect a List of individual cell data extraction errors. It will also fail fast on an unsupported extractor.
 
-Note: the 'long' extractor is limited to 15 decimal digit Longs.
+NOTE: the 'long' extractor is limited to 15 decimal digit Longs.
  
  
 
 
 Building
 --------
+
+NOTE:
+The building feature is provided to allow simple data dumps and is NOT intended to be used where fancy reporting is needed.
+The older feature, ExcelFile, can be used to provide some of this but there is no intent to further build on this.
 
 It assumes a simple grid on the specified worksheet, by name or index, originating at a specified startRowIndex (default is 0) and columnIndex (default is 0).
 If no worksheet is specified, the first will be used. 
