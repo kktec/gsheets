@@ -44,7 +44,7 @@ There are other simple building/parsing examples in the integration tests.
 
 Thanks to Sean Gilligan for helping out. - Ken Krebs
 
-To use it in Grails2 or a gradle build, simply add a compile dependency to 'org.gsheets.kktec:gsheets:0.3.2a' against mavenRepo 'http://dl.bintray.com/kktec/maven'
+To use it in Grails2 or a gradle build, simply add a compile dependency to 'org.gsheets.kktec:gsheets:0.3.2a' against jcenter or mavenRepo 'http://dl.bintray.com/kktec/maven'
 
 
 
