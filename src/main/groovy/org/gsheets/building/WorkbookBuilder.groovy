@@ -64,6 +64,7 @@ class WorkbookBuilder {
 		assert closure
 
 		currentSheet = wb.createSheet(name)
+		nextRowNum = 0
 		closure.delegate = currentSheet
 		closure.call()
 		currentSheet
