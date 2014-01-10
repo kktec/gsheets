@@ -18,6 +18,8 @@ See the GitHub issue tracker for more or to make feature requests or report bugs
 Versions
 --------
 
+NOTE: 0.3.3 will support inline validation for each row/value being parsed. (2014-10-01 kktec).
+
 0.3.2a
 * now using Gradle 1.10 
 * built on Groovy 1.8 and is therefore usable in any Grails 2 app
