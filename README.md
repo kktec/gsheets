@@ -17,6 +17,8 @@ See the GitHub issue tracker for more or to make feature requests or report bugs
 
 Versions
 --------
+0.3.2b
+* fixed issue #13, builder rowIndex counter is now reset on building a new sheet
 
 0.3.2a
 * now using Gradle 1.10 

@@ -269,6 +269,20 @@ abstract class WorkbookBuilderSpec extends Specification {
 		fetchSheet().getColumnWidth(1) > 2048
 	}
 	
+	def 'adding an additional sheet resets the the rowIndex counter'() {
+		when:
+		builder.workbook {
+			sheet('s1') {
+				row('a', 'x')
+			}
+			sheet('s2') {
+			}
+		}
+
+        then:
+		builder.nextRowNum == 0
+	}
+	
 	static class SomeClass {
 		String toString() {
 			'someObject'
