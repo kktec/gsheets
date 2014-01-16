@@ -17,12 +17,9 @@ See the GitHub issue tracker for more or to make feature requests or report bugs
 
 Versions
 --------
+
 0.3.2b
 * fixed issue #13, builder rowIndex counter is now reset on building a new sheet
-
-NOTE: 0.3.3 will support inline validation for each row/value being parsed. (2014-10-01 kktec).
-
-NOTE: 0.3.3 will support inline validation for each row/value being parsed. (2014-10-01 kktec).
 
 0.3.2a
 * now using Gradle 1.10 
