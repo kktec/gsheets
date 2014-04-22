@@ -18,6 +18,12 @@ See the GitHub issue tracker for more or to make feature requests or report bugs
 Versions
 --------
 
+0.4.0
+* Updated Groovy compiler to 2.0
+* Updated Spock for Groovy2
+* Updated Java to 7
+* Updated Gradle to 1.11
+
 0.3.2b
 * fixed issue #13, builder rowIndex counter is now reset on building a new sheet
 
