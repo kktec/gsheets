@@ -15,19 +15,17 @@ See the GitHub issue tracker for more or to make feature requests or report bugs
 
 
 
-Versions
+Release Notes & Versions
 --------
 
 0.4.0 (unreleased)
 * Updated Groovy compiler to 2.0
 * Updated Spock for Groovy2
 * Updated Java to 7
-* Updated Gradle to 1.11
+* Updated Gradle to 2.3
+* Fixed issue #13, builder rowIndex counter is now reset on building a new sheet
 
-0.3.2b (unreleased)
-* fixed issue #13, builder rowIndex counter is now reset on building a new sheet
-
-0.3.2a (current release)
+0.3.2a *THE_CURRENT_VERSION*
 * now using Gradle 1.10 
 * built on Groovy 1.8 and is therefore usable in any Grails 2 app
 * first published version with binaries deployed to jcenter at binTray
@@ -53,7 +51,7 @@ There are other simple building/parsing examples in the integration tests.
 
 Thanks to Sean Gilligan for helping out. - Ken Krebs
 
-To use it in Grails2 or a gradle build, simply add a compile dependency to 'org.gsheets.kktec:gsheets:0.3.2a' against jcenter or mavenRepo 'http://dl.bintray.com/kktec/maven'
+To use it in Grails2 or a gradle build, simply add a compile dependency to *THE_CURRENT_VERSION* against jcenter or mavenRepo 'http://dl.bintray.com/kktec/maven'
 
 
 
@@ -98,15 +96,13 @@ A simple example of building a Workbook with a Sheet with 1 header row and 3 dat
 
 	WorkbookBuilder builder = new WorkbookBuilder(true)     // true for.xlsx, false for .xls
     Workbook workbook = builder.workbook {
-        workbook {
-            def fmt = new SimpleDateFormat('yyyy-MM-dd', Locale.default)
-            sheet('sheet 1') {
-                row('Name', 'Date', 'Count', 'Value', 'Active')
-                row('a', fmt.parse('2012-09-12'), 69, 12.34, true)
-                row('b', fmt.parse('2012-09-13'), 666, 43.21, false)
-                autoColumnWidth(5)
-            }
-        }	
+        def fmt = new SimpleDateFormat('yyyy-MM-dd', Locale.default)
+        sheet('sheet 1') {
+            row('Name', 'Date', 'Count', 'Value', 'Active')
+            row('a', fmt.parse('2012-09-12'), 69, 12.34, true)
+            row('b', fmt.parse('2012-09-13'), 666, 43.21, false)
+            autoColumnWidth(5)
+        }
     }
 
     File file = new File(name)
