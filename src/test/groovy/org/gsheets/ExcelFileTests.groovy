@@ -16,8 +16,8 @@ import org.junit.Test
  */
 class ExcelFileTests {
 
-	Workbook wb = workbook { }
-	Sheet sheet
+	private Workbook wb = workbook { }
+	private Sheet sheet
 
 	@Test
 	void empty_workbook() {

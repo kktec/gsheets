@@ -314,7 +314,7 @@ abstract class WorkbookBuilderSpec extends Specification {
 	}
 	
 	static file(name, builder) {
-		Workbook workbook = builder.workbook demospec
+		Workbook workbook = builder.workbook(demospec)
 		
 		File file = new File(name)
 		if (!file.exists()) {

@@ -14,9 +14,10 @@ import org.apache.poi.ss.usermodel.Workbook
  */
 class ExcelFileSmokeTests extends GroovyTestCase {
 	
-    File excel
+    private File excel
 
     void setUp() {
+		super.setUp()
         excel = new File('test.xls')
         if (!excel.exists()) {
 			 excel.createNewFile()

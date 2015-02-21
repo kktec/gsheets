@@ -139,8 +139,7 @@ abstract class WorkbookParserSpec extends Specification {
 				row 'something'
 			}
 		}
-		parser = newParser(builder.wb)
-		
+		parser = newParser(builder.wb)	
 		
 		when:
 		List data = parser.grid {
@@ -160,8 +159,7 @@ abstract class WorkbookParserSpec extends Specification {
 				row 'something'
 			}
 		}
-		parser = newParser(builder.wb)
-		
+		parser = newParser(builder.wb)		
 		
 		when:
 		List data = parser.grid {
@@ -181,7 +179,6 @@ abstract class WorkbookParserSpec extends Specification {
 			}
 		}
 		parser = newParser(builder.wb)
-		
 		
 		when:
 		List data = parser.grid {

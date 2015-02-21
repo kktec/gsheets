@@ -1,9 +1,12 @@
 package org.gsheets.parsing
 
+import groovy.util.logging.Log
+
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.gsheets.building.WorkbookBuilder
 
+@Log
 class XmlWorkbookParserSpec extends WorkbookParserSpec {
 
 	protected WorkbookParser newParser(Workbook workbook) { new WorkbookParser(workbook) }
@@ -15,7 +18,7 @@ class XmlWorkbookParserSpec extends WorkbookParserSpec {
 		FileInputStream ins = new FileInputStream('demo_test.xlsx')
 		Workbook workbook = new XSSFWorkbook(ins)
 		WorkbookParser parser = new WorkbookParser(workbook)
-		println parser.grid {
+		log.info parser.grid {
 			startRowIndex = 1
 			columns name: 'int', date: 'date', count: 'int', value: 'decimal', active: 'boolean'
 		}

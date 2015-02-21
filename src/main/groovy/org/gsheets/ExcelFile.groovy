@@ -1,7 +1,6 @@
 /**
 	see README for copyright/licensing info 
  */
-
 package org.gsheets
 
 import org.apache.poi.hssf.usermodel.HSSFRichTextString
@@ -47,6 +46,10 @@ import org.apache.poi.ss.usermodel.*
  *
  * @author me@andresteingress.com
  */
+@SuppressWarnings([
+	'Instanceof', 'NoDef', 'NoWildcardImports', 'CyclomaticComplexity',
+	'UnnecessarySubstring', 'PropertyName', 'FieldName'
+])
 class ExcelFile {
 
     Workbook _workbook = new HSSFWorkbook()
