@@ -57,3 +57,4 @@ local.properties
 demo.xls*
 test.xls
 /gradle-app.setting
+**/.*.md.html
