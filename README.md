@@ -24,6 +24,7 @@ Release Notes & Versions
 * Updated Java to 7
 * Updated Gradle to 2.3
 * Updated Codenarc to 0.22
+* Updated Cobertura Gradle plugin
 * Fixed issue #13, builder rowIndex counter is now reset on building a new sheet
 
 0.3.2a *THE_CURRENT_VERSION*

@@ -6,7 +6,7 @@ group = 'org.gsheets.kktec'
 version = '0.4.0'
 description = 'A simple Groovy DSL wrapper over Apache POI'
 
-defaultTasks 'clean', 'build'
+defaultTasks 'clean', 'build', 'cobertura'
 
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -37,6 +37,9 @@ codenarc {
 }
 
 apply plugin: 'cobertura'
+//plugins {
+//	id 'net.saliman.cobertura' version '2.2.5'
+//}
 cobertura {
 	coverageSourceDirs = [project.sourceSets.main.groovy.srcDirs]
 }
@@ -70,7 +73,7 @@ buildscript {
 	
 	dependencies {
 		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
-		classpath "net.saliman:gradle-cobertura-plugin:2.0.0"
+		classpath 'net.saliman:gradle-cobertura-plugin:2.2.5'
 	}
 }
 
@@ -96,4 +99,5 @@ bintray {
 	}
 	dryRun = false // whether to run this as dry-run, without deploying
 }
+
 

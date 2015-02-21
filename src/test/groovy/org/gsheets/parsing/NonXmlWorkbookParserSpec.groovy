@@ -18,10 +18,11 @@ class NonXmlWorkbookParserSpec extends WorkbookParserSpec {
 		FileInputStream ins = new FileInputStream('demo.xls')
 		Workbook workbook = new HSSFWorkbook(ins)
 		WorkbookParser parser = new WorkbookParser(workbook)
-		log.info parser.grid {
+		List data = parser.grid {
 			startRowIndex = 1
 			columns name: 'int', date: 'date', count: 'int', value: 'decimal', active: 'boolean'
 		}
+		log.info data.toString()
 		ins.close()
 	}
 }
