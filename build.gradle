@@ -6,7 +6,7 @@ group = 'org.gsheets.kktec'
 version = '0.4.0'
 description = 'A simple Groovy DSL wrapper over Apache POI'
 
-defaultTasks 'clean', 'build', 'groovydoc', 'sourceJar'
+defaultTasks 'clean', 'build'
 
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -27,7 +27,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '1.11'
+	gradleVersion = '2.3'
 }
 
 apply plugin: 'codenarc'
