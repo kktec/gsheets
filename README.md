@@ -18,7 +18,9 @@ See the GitHub issue tracker for more or to make feature requests or report bugs
 Release Notes & Versions
 --------
 
-0.4.0 (unreleased)
+0.4.0 *THE_CURRENT_VERSION*
+
+This is a technology upgrade release, primarily Groovy2.
 * Updated Groovy compiler to 2.0
 * Updated Spock for Groovy2
 * Updated Java to 7
@@ -27,7 +29,7 @@ Release Notes & Versions
 * Updated Cobertura Gradle plugin
 * Fixed issue #13, builder rowIndex counter is now reset on building a new sheet
 
-0.3.2a *THE_CURRENT_VERSION*
+0.3.2a *THE_FIRST_VERSION*
 * now using Gradle 1.10 
 * built on Groovy 1.8 and is therefore usable in any Grails 2 app
 * first published version with binaries deployed to jcenter at binTray
