@@ -19,7 +19,7 @@ Release Notes & Versions
 --------
 
 0.4.1 (in development)
-* #17 Add building support for styling a workbook, sheet, row, or individual cell
+* #17 Add building support for styling a workbook, sheet, column, row, or individual cell
 * # 10 Specify a specific number of rows to parse
  
 
