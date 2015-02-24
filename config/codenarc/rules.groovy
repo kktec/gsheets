@@ -37,7 +37,9 @@ ruleset {
 		exclude 'JavaIoPackageAccess'
 	}
 	ruleset('rulesets/serialization.xml')
-	ruleset('rulesets/size.xml')
+	ruleset('rulesets/size.xml') {
+		MethodCount { maxMethods = 40 }
+	}
 	ruleset('rulesets/unnecessary.xml')
 	ruleset('rulesets/unused.xml')
 }

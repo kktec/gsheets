@@ -20,7 +20,8 @@ Release Notes & Versions
 
 0.4.1 (in development)
 * #17 Add building support for styling a workbook, sheet, column, row, or individual cell
-* # 10 Specify a specific number of rows to parse
+* # 10 Specify a specific number of rows to parse (not done yet)
+* Add support for using a custom Date format 
  
 
 
@@ -55,7 +56,9 @@ This is a technology upgrade release, primarily Groovy2.
 Notes
 -----
 
-Check the tests for examples of usage. There are main methods on the tests that can be used to demonstrate building and parsing spreadsheets.
+Check the tests for more detailed examples of usage !!!
+
+There are main methods on the tests that can be used to demonstrate building and parsing spreadsheets.
 
 There are other simple building/parsing examples in the integration tests.
 
@@ -96,8 +99,9 @@ Building
 --------
 
 NOTE:
-The building feature is provided to allow simple data dumps and is NOT intended to be used where fancy reporting is needed.
-The older feature, ExcelFile, can be used to provide some of this but there is no intent to further build on this. _This will change with v0.4.1 which will support styling_.
+The building feature is provided to allow simple data dumps and some simple styling. It does NOT currently support cell/row merging.
+
+The older feature, ExcelFile, can be used to provide some of this but there is no intent to further build on this. It will be deprecated once all of its features are provided.
 
 It assumes a simple grid on the specified worksheet, by name or index, originating at a specified startRowIndex (default is 0) and columnIndex (default is 0).
 If no worksheet is specified, the first will be used. 

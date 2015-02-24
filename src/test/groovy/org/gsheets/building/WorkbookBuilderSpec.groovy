@@ -6,6 +6,8 @@ import static spock.util.matcher.HamcrestSupport.*
 import java.text.SimpleDateFormat
 
 import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellStyle
+import org.apache.poi.ss.usermodel.Font
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
@@ -20,6 +22,10 @@ abstract class WorkbookBuilderSpec extends Specification {
 	
 	abstract protected newBuilder()
 	
+	abstract protected int expectedNumberOfDefaultFonts()
+	
+	abstract protected boolean assertDifferingFontCharacteristics(Font font)
+	
 	def setup() {
 		builder = newBuilder()
 	}
@@ -28,18 +34,106 @@ abstract class WorkbookBuilderSpec extends Specification {
 		assert builder.wb.class == builder.support.workbookType()
 	}
 	
+	def 'can define a new CellStyle and make it the current style and restore the previous'() {
+		when:
+		Workbook wb = builder.workbook {
+			cellStyle(
+				'xyz',
+				[fontName: 'Courier', fontHeightInPoints: 12, color: Font.COLOR_RED],
+				[alignment: CellStyle.ALIGN_CENTER]
+			)
+			useStyle 'xyz'
+			sheet('f') {
+				row('x')
+			}
+			restoreStyle()
+			sheet('g') {
+				row('y')
+			}
+		}
+
+		and:
+		Cell x = fetchCell('f', 0, 0)
+		CellStyle xStyle = x.cellStyle
+		Font xFont = wb.getFontAt(xStyle.fontIndex)
+		
+		then:
+		x.stringCellValue == 'x'
+		xStyle.alignment == CellStyle.ALIGN_CENTER
+		with(xFont) {
+			fontName == 'Courier'
+			fontHeightInPoints == 12
+			color == Font.COLOR_RED
+		}
+		
+		and:
+		Cell y = fetchCell('g', 0, 0)
+		CellStyle yStyle = y.cellStyle
+		Font yFont = wb.getFontAt(yStyle.fontIndex)
+		
+		then:
+		y.stringCellValue == 'y'
+		yStyle.alignment == CellStyle.ALIGN_GENERAL
+		with(yFont) {
+			fontName == 'Arial' || fontName == 'Calibri'
+		}
+		
+	}
+	
+	def 'a cell in a workbook uses the default CellStyle'() {
+		when:
+		Workbook wb = builder.workbook {
+			sheet('f') {
+				row('x')
+			}
+		}
+		Cell x = fetchCell(0, 0)
+		CellStyle style = x.cellStyle
+		Font cellFont = wb.getFontAt(style.fontIndex)
+		Font defaultFont = wb.getFontAt(0 as short)
+		
+		then:
+		x.stringCellValue == 'x'
+		style.fontIndex == 0
+		cellFont.is defaultFont
+		wb.numberOfFonts == expectedNumberOfDefaultFonts()
+		assertCommonFontCharacteristics(cellFont)
+		assertDifferingFontCharacteristics(cellFont)
+	}
+	
+	def 'a cell in a workbook uses the default font'() {
+		when:
+		Workbook wb = builder.workbook {
+			sheet('f') {
+				row('x')
+			}
+		}
+		Cell x = fetchCell(0, 0)
+		CellStyle style = x.cellStyle
+		Font cellFont = wb.getFontAt(style.fontIndex)
+		Font defaultFont = wb.getFontAt(0 as short)
+		
+		then:
+		x.stringCellValue == 'x'
+		style.fontIndex == 0
+		cellFont.is defaultFont
+		wb.numberOfFonts == expectedNumberOfDefaultFonts()
+		assertCommonFontCharacteristics(cellFont)
+		assertDifferingFontCharacteristics(cellFont)
+	}
+	
 	def 'can build an empty workbook'() {
 		when:
-		builder.workbook {
+		Workbook wb = builder.workbook {
 		}
 
 		then:
-		fetchWb().numberOfSheets == 0
+		wb.numberOfSheets == 0
 	}
 	
 	def 'can build a workbook with multiple sheets'() {
 		when:
-		builder.workbook {
+		Workbook wb = builder.workbook {
 			sheet('sheet1') {
 			}
 			sheet('sheet2') {
@@ -47,8 +141,8 @@ abstract class WorkbookBuilderSpec extends Specification {
 		}
 		
 		then:
-		fetchWb().getSheetAt(0).sheetName == 'sheet1'
-		fetchWb().getSheetAt(1).sheetName == 'sheet2'
+		wb.getSheetAt(0).sheetName == 'sheet1'
+		wb.getSheetAt(1).sheetName == 'sheet2'
 	}
 	
 	def 'can build a single sheet directly into the workbook'() {
@@ -57,7 +151,7 @@ abstract class WorkbookBuilderSpec extends Specification {
 		}
 		
 		then:
-		fetchWb().getSheetAt(0).sheetName == 'sheet1'
+		builder.wb.getSheetAt(0).sheetName == 'sheet1'
 	}
 	
 	def 'can NOT build a row outside a sheet'() {
@@ -177,21 +271,21 @@ abstract class WorkbookBuilderSpec extends Specification {
 		fetchCell0(0).cellStyle.dataFormatString == 'yyyy-mm-dd hh:mm'
 	}
 	
-	def 'can build a Date cell with a particular format string'() {
+	def 'can build a Date cell with a custom Date format'() {
 		given:
-		SimpleDateFormat sdf = new SimpleDateFormat('yyyy-MM-dd', Locale.default)
-		Date date = sdf.parse('1951-08-06')
+		Date date = new Date()
 		
 		when:
 		builder.workbook {
+			currentDateFormat = 'yyyy-mm-dd'
 			sheet('f') {
-				row('x', date)
+				row(date)
 			}
 		}
 		
 		then:
-		fetchCell(0, 1).dateCellValue == date
-		fetchCell(0, 1).cellStyle.dataFormatString == 'yyyy-mm-dd hh:mm'
+		fetchCell0(0).dateCellValue == date
+		fetchCell0(0).cellStyle.dataFormatString == 'yyyy-mm-dd'
 	}
 	
 	def 'can build an object cell as a String'() {
@@ -289,7 +383,21 @@ abstract class WorkbookBuilderSpec extends Specification {
 		}
 	}
 	
+	protected boolean assertCommonFontCharacteristics(Font font) {
+		with(font) {
+			boldweight == Font.BOLDWEIGHT_NORMAL
+			italic == false
+			underline == Font.U_NONE
+			strikeout == false
+		}
+		true
+	}
+	
 	protected Cell fetchCell(rowNum, cellNum) { fetchCell(builder.currentSheet.getRow(rowNum), cellNum) }
+	
+	protected Cell fetchCell(String sheet, rowNum, cellNum) { 
+		fetchCell(builder.wb.getSheet(sheet).getRow(rowNum), cellNum)
+	}
 	
 	protected Cell fetchCell(Row row, cellNum) { row.getCell cellNum }
 
@@ -297,8 +405,6 @@ abstract class WorkbookBuilderSpec extends Specification {
 
 	protected Cell fetchCell(cellNum) { fetchCell builder.currentRow, cellNum }
 
-	protected Workbook fetchWb() { builder.wb }
-	
 	protected Sheet fetchSheet() { builder.currentSheet }
 	
 	static demospec = {

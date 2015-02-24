@@ -3,7 +3,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 group = 'org.gsheets.kktec'
-version = '0.4.0'
+version = '0.4.1-SNAPSHOT'
 description = 'A simple Groovy DSL wrapper over Apache POI'
 
 defaultTasks 'clean', 'build', 'cobertura'
@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.0.8'
+	compile 'org.codehaus.groovy:groovy-all:2.0.8'
 	
 	compile 'org.apache.poi:poi:3.8'
 	compile 'org.apache.poi:poi-ooxml:3.8'

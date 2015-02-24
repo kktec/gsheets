@@ -2,7 +2,7 @@ package org.gsheets.building
 
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
-import org.apache.poi.ss.usermodel.DataFormat
+import org.apache.poi.ss.usermodel.Font
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
@@ -17,17 +17,27 @@ import org.gsheets.XmlWorkbookSupport
  */
 class WorkbookBuilder {
 	
+	final String DEFAULT_DATE_FORMAT = 'yyyy-mm-dd hh:mm'
+	
 	private final WorkbookSupport support
+	
+	private final boolean xml
 
-	Workbook wb
+	final Workbook wb
+	final Map cellStyles = [:]
+	
 	Sheet currentSheet
 	int nextRowNum
 	Row currentRow
-	String defaultWorkbookDateFormat = 'yyyy-mm-dd hh:mm'
-
+	CellStyle currentStyle
+	CellStyle previousStyle
+	String currentDateFormat = DEFAULT_DATE_FORMAT
+	
 	WorkbookBuilder(boolean xml) {
+		this.xml = xml
 		support = xml ? new XmlWorkbookSupport() : new NonXmlWorkbookSupport()
 		wb = support.workbookType().newInstance()
+		cellStyles['default'] = currentStyle = previousStyle = wb.getCellStyleAt(0 as short)
 	}
 	
 	static {
@@ -51,6 +61,32 @@ class WorkbookBuilder {
 		closure.call()
 		wb
 	}
+	
+	CellStyle useStyle(String name) {
+		assert name
+		CellStyle style = cellStyles[name] 
+		assert style
+		previousStyle = currentStyle
+		currentStyle = style
+	}
+	
+	CellStyle restoreStyle() {
+		currentStyle = previousStyle
+	}
+	
+	CellStyle cellStyle(String name, Map fontConfig, Map stylingConfig) {
+		Font font = wb.createFont()
+		fontConfig.each { property, value ->
+			font[property] = value
+		}
+		CellStyle style = wb.createCellStyle()
+		stylingConfig.each { property, value ->
+			style[property] = value
+		}
+		style.font = font
+		cellStyles[name] = style
+		style
+	}
 
 	/**
 	 * Builds a new Sheet.
@@ -70,14 +106,18 @@ class WorkbookBuilder {
 		currentSheet
 	}
 
-	Row row(... values) { row(values as List) }
+	Row row(... values) { 
+		row(values as List)
+	}
 	
 	Row row(Iterable values) {
 		if (!currentSheet) { throw new IllegalStateException('can NOT build a row outside a sheet') }
 		
-		currentRow = currentSheet.createRow(nextRowNum++)		
+		currentRow = currentSheet.createRow(nextRowNum++)
 		if (values) {
-			values.eachWithIndex { value, column -> cell value, column }
+			values.eachWithIndex { value, column ->
+				cell(value, column)
+			}
 		}
 		currentRow
 	}
@@ -88,27 +128,38 @@ class WorkbookBuilder {
 		}
 	}
 	
-	Cell cell(String value, int column) { createCell value, column, Cell.CELL_TYPE_STRING }
-	
-	Cell cell(Boolean value, int column) { createCell value, column, Cell.CELL_TYPE_BOOLEAN }
-	
-	Cell cell(Number value, int column) { createCell value, column, Cell.CELL_TYPE_NUMERIC }
-	
-	Cell cell(Date date, int column) { 
-		Cell cell = createCell date, column, Cell.CELL_TYPE_NUMERIC
-		CellStyle cellStyle = wb.createCellStyle()
-		cellStyle.dataFormat = wb.creationHelper.createDataFormat().getFormat(defaultWorkbookDateFormat)
-		cell.setCellStyle cellStyle
+	Cell cell(String value, int column) { 
+		createCell value, column, Cell.CELL_TYPE_STRING
 	}
 	
-	Cell cell(Formula formula, int column) { createCell formula.text, column, Cell.CELL_TYPE_FORMULA }
+	Cell cell(Boolean value, int column) {
+		createCell value, column, Cell.CELL_TYPE_BOOLEAN
+	}
 	
-	Cell cell(value, int column) { createCell value.toString(), column, Cell.CELL_TYPE_STRING }
+	Cell cell(Number value, int column) {
+		createCell value, column, Cell.CELL_TYPE_NUMERIC
+	}
 	
-	private Cell createCell(value, int column, int cellType) {
+	Cell cell(Date date, int column) { 
+		CellStyle style = wb.createCellStyle()
+		style.cloneStyleFrom(currentStyle)
+		style.dataFormat = wb.creationHelper.createDataFormat().getFormat(currentDateFormat)
+		createCell date, column, Cell.CELL_TYPE_NUMERIC, style
+	}
+	
+	Cell cell(Formula formula, int column) { 
+		createCell formula.text, column, Cell.CELL_TYPE_FORMULA
+	}
+	
+	Cell cell(value, int column) {
+		createCell value.toString(), column, Cell.CELL_TYPE_STRING
+	}
+	
+	private Cell createCell(value, int column, int cellType, CellStyle style = currentStyle) {
 		Cell cell = currentRow.createCell(column)
 		cell.cellType = cellType
 		cell.setCellValue(value)
+		cell.cellStyle = style
 		cell
 	}
 }
