@@ -20,7 +20,7 @@ class NonXmlWorkbookParserSpec extends WorkbookParserSpec {
 		WorkbookParser parser = new WorkbookParser(workbook)
 		List data = parser.grid {
 			startRowIndex = 1
-			columns name: 'int', date: 'date', count: 'int', value: 'decimal', active: 'boolean'
+			columns name: 'string', date: 'date', count: 'int', value: 'decimal', active: 'boolean'
 		}
 		log.info data.toString()
 		ins.close()

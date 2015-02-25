@@ -17,7 +17,7 @@ import org.gsheets.XmlWorkbookSupport
  */
 class WorkbookBuilder {
 	
-	final String DEFAULT_DATE_FORMAT = 'yyyy-mm-dd hh:mm'
+	final static String DEFAULT_DATE_FORMAT = 'yyyy-mm-dd hh:mm'
 	
 	private final WorkbookSupport support
 	

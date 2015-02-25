@@ -3,7 +3,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 group = 'org.gsheets.kktec'
-version = '0.4.1-SNAPSHOT'
+version = '0.4.1'
 description = 'A simple Groovy DSL wrapper over Apache POI'
 
 defaultTasks 'clean', 'build', 'cobertura'

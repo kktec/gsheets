@@ -211,6 +211,31 @@ abstract class WorkbookParserSpec extends Specification {
 		!parser.errors
 	}
 	
+	def 'can limit the number of rows parsed'() {
+		given:
+		builder.workbook {
+			sheet('special') {
+				row 'Thingy', 'Integer', 'Status'
+				row 'thing', 3, 'ok'
+				row 'something', 'notAnInt', 'bad'
+				row 'athing', 13, 'a-ok'
+			}
+		}
+		parser = newParser(builder.wb)
+		
+		when:
+		List data = parser.grid {
+			startRowIndex = 1
+			maxRows = 2
+			columns x: 'string', y: 'int', z: 'string'
+		}
+		
+		then:
+		data.size() == 2
+		data[0].x == 'thing'
+		data[1].x == 'something'
+	}
+	
 	def 'can report parsing errors on individual cells'() {
 		given:
 		builder.workbook {

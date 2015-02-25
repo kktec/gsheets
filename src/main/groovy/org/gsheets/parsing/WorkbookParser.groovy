@@ -12,6 +12,8 @@ import org.apache.poi.ss.usermodel.Workbook
  */
 class WorkbookParser {
 	
+	private static int DEFAULT_MAX_ROWS = Integer.MAX_VALUE
+	
 	private final Workbook workbook
 	
 	private String sheetName
@@ -19,6 +21,8 @@ class WorkbookParser {
 	private int sheetIndex
 	
 	int startRowIndex
+	
+	int maxRows = DEFAULT_MAX_ROWS
 	
 	int startColumnIndex
 	
@@ -62,6 +66,8 @@ class WorkbookParser {
 	List<Map> grid(Closure closure) {
 		assert closure
 		
+		startRowIndex = 0
+		maxRows = DEFAULT_MAX_ROWS
 		closure.delegate = this
 		closure.call()
 		
@@ -104,7 +110,7 @@ class WorkbookParser {
 		if (sheetName) { sheet = workbook.getSheet(sheetName) }
 		sheet = sheet ?: workbook.getSheetAt(sheetIndex)
 
-		int rows = sheet.physicalNumberOfRows - startRowIndex
+		int rows = Math.min(sheet.physicalNumberOfRows - startRowIndex, maxRows)
 		rows.times {
 			Row row = sheet.getRow(it + startRowIndex)
 			if (row) { data << rowData(row) }

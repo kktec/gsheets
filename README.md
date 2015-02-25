@@ -10,7 +10,7 @@ It can be used to declaratively parse or build spreadsheets.
 
 The original code, ExcelFile, does not support xml spreadsheets and is provided as a convenience and to provide building functionality not yet provided.
 
-Plans as of 2014-01 include additional spreadsheet building/parsing features, additional samples, and better documentation.
+Plans as of 2015-02 include additional spreadsheet building/parsing features, additional samples, and better documentation.
 See the GitHub issue tracker for more or to make feature requests or report bugs.
 
 
@@ -18,14 +18,14 @@ See the GitHub issue tracker for more or to make feature requests or report bugs
 Release Notes & Versions
 --------
 
-0.4.1 (in development)
+__0.4.1 THE_CURRENT_VERSION__
+
 * #17 Add building support for styling a workbook, sheet, column, row, or individual cell
-* # 10 Specify a specific number of rows to parse (not done yet)
+* # 10 Specify a maximum number of rows to parse
 * Add support for using a custom Date format 
  
 
-
-0.4.0 *THE_CURRENT_VERSION*
+__0.4.0__ 
 
 This is a technology upgrade release, primarily Groovy2.
 * Updated Groovy compiler to 2.0
@@ -36,19 +36,23 @@ This is a technology upgrade release, primarily Groovy2.
 * Updated Cobertura Gradle plugin
 * Fixed issue #13, builder rowIndex counter is now reset on building a new sheet
 
-0.3.2a *THE_FIRST_VERSION*
+__0.3.2a THE_FIRST_VERSION__
+
 * now using Gradle 1.10 
 * built on Groovy 1.8 and is therefore usable in any Grails 2 app
 * first published version with binaries deployed to jcenter at binTray
 * allows the special extractor 'skip' to be specified in a case insensitive way as all upper case reads better
  
-0.3.2
+__0.3.2__
+
 * adds the ability to autosize the width of a specific no. of columns - call this after the sheet has been populated
 
-0.3.1
+__0.3.1__
+
 * adds support for building a Workbook with a specified Date format, default format is 'yyyy-mm-dd hh:mm' showing military style time hours (0-23)
 
-0.3
+__0.3__
+
 * adds grid parsing functionality for declaratively reading spreadsheets
 
 
@@ -101,14 +105,14 @@ Building
 NOTE:
 The building feature is provided to allow simple data dumps and some simple styling. It does NOT currently support cell/row merging.
 
-The older feature, ExcelFile, can be used to provide some of this but there is no intent to further build on this. It will be deprecated once all of its features are provided.
+The older feature, ExcelFile, can be used to provide some of this but there is no intent to further build on this. It will be deprecated once all of its features are provided. The tests clearly show how to use the new styling support.
 
 It assumes a simple grid on the specified worksheet, by name or index, originating at a specified startRowIndex (default is 0) and columnIndex (default is 0).
 If no worksheet is specified, the first will be used. 
 
 A simple example of building a Workbook with a Sheet with 1 header row and 3 data rows of 5 columns:
 
-	WorkbookBuilder builder = new WorkbookBuilder(true)     // true for.xlsx, false for .xls
+	WorkbookBuilder builder = new WorkbookBuilder(true)     // true for .xlsx, false for .xls
     Workbook workbook = builder.workbook {
         def fmt = new SimpleDateFormat('yyyy-MM-dd', Locale.default)
         sheet('sheet 1') {
