@@ -59,6 +59,7 @@ abstract class WorkbookParserSpec extends Specification {
 		!parser.errors
 	}
 
+    @SuppressWarnings(['UnnecessaryCollectCall'])
 	@Unroll
 	def 'from parsed grid: #a plus #b equals #c'() {
 		expect:

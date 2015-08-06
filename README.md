@@ -10,7 +10,7 @@ It can be used to declaratively parse or build spreadsheets.
 
 The original code, ExcelFile, does not support xml spreadsheets and is provided as a convenience and to provide building functionality not yet provided.
 
-Plans as of 2015-02 include additional spreadsheet building/parsing features, additional samples, and better documentation.
+Plans as of 2015-08 include additional spreadsheet building/parsing features, additional samples, and better documentation.
 See the GitHub issue tracker for more or to make feature requests or report bugs.
 
 
@@ -18,16 +18,28 @@ See the GitHub issue tracker for more or to make feature requests or report bugs
 Release Notes & Versions
 --------
 
+__0.4.2 (unreleased)__
+
+Technology upgrades:
+
+* Update Groovy to 2.3.11
+* Update Spock to 1.0
+* Upgrade Gradle to 2.5
+* Updated Cobertura Gradle plugin to 2.2.28
+* Updated CodeNarc to 0.24
+
+
 __0.4.1 THE_CURRENT_VERSION__
 
 * #17 Add building support for styling a workbook, sheet, column, row, or individual cell
-* # 10 Specify a maximum number of rows to parse
+* #10 Specify a maximum number of rows to parse
 * Add support for using a custom Date format 
  
 
 __0.4.0__ 
 
 This is a technology upgrade release, primarily Groovy2.
+
 * Updated Groovy compiler to 2.0
 * Updated Spock for Groovy2
 * Updated Java to 7

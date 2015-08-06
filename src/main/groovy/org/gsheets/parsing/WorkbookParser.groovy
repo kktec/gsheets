@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook
  */
 class WorkbookParser {
 	
-	private static int DEFAULT_MAX_ROWS = Integer.MAX_VALUE
+	private static final int DEFAULT_MAX_ROWS = Integer.MAX_VALUE
 	
 	private final Workbook workbook
 	
@@ -117,7 +117,8 @@ class WorkbookParser {
 		}
 		data
 	}
-	
+
+    @SuppressWarnings(['CatchException'])
 	private Map rowData(Row row) {
 		Map data = [:]
 		columnMap.eachWithIndex { column, extractorName, index ->
