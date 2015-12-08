@@ -24,7 +24,7 @@ Technology upgrades:
 
 * Update Groovy to 2.3.11
 * Update Spock to 1.0
-* Upgrade Gradle to 2.5
+* Upgrade Gradle to 2.9
 * Updated Cobertura Gradle plugin to 2.2.28
 * Updated CodeNarc to 0.24
 
