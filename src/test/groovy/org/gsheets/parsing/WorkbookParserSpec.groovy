@@ -17,6 +17,8 @@ abstract class WorkbookParserSpec extends Specification {
 	
 	abstract protected WorkbookBuilder newBuilder()
 	
+	int startColumnIndex = -1 // Note: triggers a test error when if an owner property shadows a Parser property
+	
 	Date date1 = new Date()
 	Date date2 = new Date(date1.time + 1000 * 60 * 60 * 24)
 	List rowA = ['a', 'rubbish', 12.34, 13I, true, 3.14159D, 2.345F, date1, 123456789L]

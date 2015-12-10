@@ -69,6 +69,7 @@ class WorkbookParser {
 		startRowIndex = 0
 		maxRows = DEFAULT_MAX_ROWS
 		closure.delegate = this
+		closure.resolveStrategy = Closure.DELEGATE_FIRST
 		closure.call()
 		
 		data(workbook)

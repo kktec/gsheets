@@ -18,7 +18,9 @@ See the GitHub issue tracker for more or to make feature requests or report bugs
 Release Notes & Versions
 --------
 
-__0.4.2 (unreleased)__
+__0.4.2 THE_CURRENT_VERSION__
+
+__Fixed:__ Issue #19 - startRowIndex and maxRows ignored in closure for WorkbookParser.grid()
 
 Technology upgrades:
 
@@ -29,7 +31,7 @@ Technology upgrades:
 * Updated CodeNarc to 0.24
 
 
-__0.4.1 THE_CURRENT_VERSION__
+__0.4.1
 
 * #17 Add building support for styling a workbook, sheet, column, row, or individual cell
 * #10 Specify a maximum number of rows to parse
