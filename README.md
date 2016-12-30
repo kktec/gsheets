@@ -1,7 +1,7 @@
 GSheets
 ========
 
-kktec/gsheets is a [Groovy](http://groovy.codehaus.org) DSL wrapper over [Apache POI](http://poi.apache.org) based on code forked from [andresteingress/gsheets](https://github.com/andresteingress/gsheets).
+kktec/gsheets is a [Groovy](http://www.groovy-lang.org/) DSL wrapper over [Apache POI](http://poi.apache.org) based on code forked from [andresteingress/gsheets](https://github.com/andresteingress/gsheets).
 
 Overview
 --------
@@ -31,7 +31,7 @@ Technology upgrades:
 * Updated CodeNarc to 0.24
 
 
-__0.4.1
+__0.4.1__
 
 * #17 Add building support for styling a workbook, sheet, column, row, or individual cell
 * #10 Specify a maximum number of rows to parse
